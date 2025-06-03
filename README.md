@@ -112,6 +112,10 @@ O diagrama a seguir demonstra como funciona a transição entre as telas do jogo
 * **Leitura de Teclado em Tempo Real** (`getch()` do `conio.h`)
 * **Manipulação de Tela e Pausa** (`system("cls")`, `Sleep()` do `windows.h`)
 
+## Compilação
+* O jogo compila apenas em windows
+* o compilador usado foi o dev c++
+
 ## 👤 Autoria
 Este jogo foi desenvolvido como parte de um projeto educacional de programação. O personagem e a narrativa foram criados para fins didáticos e entretenimento.
 
