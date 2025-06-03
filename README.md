@@ -4,7 +4,9 @@ Projeto desenvolvido como parte da segunda avaliação da disciplina Programaç�
 ## 📜 Sobre o Projeto
 
 Você joga como Detetive Perani, tentando capturar o criminoso conhecido como O Relojoeiro. Para encontrá-lo, você precisa seguir as pistas e atravessar diferentes fases cheias de perigos.
+
 O objetivo principal é concluir três fases, superando obstáculos e inimigos em cada uma delas. Em todas as fases, o jogador deve encontrar uma chave para abrir a porta trancada e seguir para a próxima etapa.
+
 Conforme o jogador avança, a dificuldade aumenta, com o surgimento de novos inimigos, armadilhas e mecânicas interativas que tornam a jogabilidade mais desafiadora e estratégica.
 
 ## 🎮 Comandos
