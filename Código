@@ -324,7 +324,7 @@ void moverJogadorFase4(int dx, int dy) {
 
     if (destino == '*' || destino == '#') {
        if (destino == '#') {
-            delayPrint("\nVoce tocou nos espinhos! Cuidado!\n", 20); // Merged: delayPrint
+            delayPrint("\nVoce tocou nos espinhos! Cuidado!\n", 20); 
             system("pause");
             reiniciarFase(4);
         }
