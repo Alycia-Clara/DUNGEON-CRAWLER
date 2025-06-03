@@ -48,9 +48,7 @@ O jogo é composto por diversas telas e fases que guiam a experiência do jogado
   Exibe o título do jogo e três opções principais:
 
  ![Captura de Tela (2)](https://github.com/user-attachments/assets/ce67d6b9-0d99-4cce-9190-8b8c61d98e82)
-  * **Jogar**: Inicia o jogo a partir da Vila.
-  * **Créditos**: Exibe os nomes dos desenvolvedores.
-  * **Sair**: Mostra uma mensagem de despedida e encerra o programa.
+  * **Jogar**: Inicia o jogo a partir do Tutorial.
 
 
 * **Créditos**
@@ -94,6 +92,7 @@ Cada fase possui tamanho e elementos específicos, aumentando em complexidade:
 | **Fase 1**          | 10x10    | Jogador, paredes, chave e porta                           |
 | **Fase 2**          | 20x20    | Todos da Fase 1 + botão, espinhos e Capanga (`X`) |
 | **Fase 3**          | 40x40    | Todos da Fase 2 + teletransporte e O Relojoeiro (`V`)  |
+
 
 O diagrama a seguir demonstra como funciona a transição entre as telas do jogo.
 ![Captura de Tela (1)](https://github.com/user-attachments/assets/ea5a9a73-f4c5-4cef-b0fb-b1f26dea3361)
