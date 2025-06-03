@@ -9,11 +9,14 @@ Conforme o jogador avança, a dificuldade aumenta, com o surgimento de novos ini
 
 ## 🎮 Comandos
 O jogador possui os seguintes comando:
+
 ● W: O jogador movimenta uma unidade para cima;
+
 ● A: O jogador movimenta uma unidade para esquerda;
+
 ● S: O jogador movimenta uma unidade para baixo;
+
 ● D: O jogador movimenta uma unidade para direita;
-● i: O jogador interage com o objeto que está em cima.
 
 ## 👾 Elementos gráficos
 O jogo utiliza uma série de símbolos para representar os diferentes elementos presentes nas fases. Abaixo está a legenda com a descrição de cada um:
@@ -41,6 +44,7 @@ O jogo é composto por diversas telas e fases que guiam a experiência do jogado
 
 * **Menu Principal**
   Exibe o título do jogo e três opções principais:
+
  ![Captura de Tela (2)](https://github.com/user-attachments/assets/ce67d6b9-0d99-4cce-9190-8b8c61d98e82)
   * **Jogar**: Inicia o jogo a partir da Vila.
   * **Créditos**: Exibe os nomes dos desenvolvedores.
