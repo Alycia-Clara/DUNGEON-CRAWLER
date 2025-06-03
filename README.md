@@ -1,3 +1,5 @@
+![Dungeon Crawler](https://img.shields.io/badge/Projeto-DungeonCrawler-blueviolet)
+
 # ⚔ DUNGEON-CRAWLER
 Projeto desenvolvido como parte da segunda avaliação da disciplina Programação 1, por Alycia Brasil e Paulo Amaral. Trata-se de um jogo no estilo **Dungeon Crawler**, com foco em **aventura e resolução de puzzles**, que desafia o jogador a avançar por três fases com dificuldade progressiva.
 
@@ -90,9 +92,27 @@ Cada fase possui tamanho e elementos específicos, aumentando em complexidade:
 | ------------------- | -------- | --------------------------------------------------------- |
 | **Museu (Tutorial)** | 10x10    | NPCs, paredes, chave e porta                              |
 | **Fase 1**          | 10x10    | Jogador, paredes, chave e porta                           |
-| **Fase 2**          | 20x20    | Todos da Fase 1 + botão, espinhos e Capanga (`X`) |
-| **Fase 3**          | 40x40    | Todos da Fase 2 + teletransporte e O Relojoeiro (`V`)  |
+| **Fase 2**          | 20x20    | Jogador, paredes, chave, porta, botão, espinhos e Capanga (`X`) |
+| **Fase 3**          | 40x40    | Jogador, paredes, chave, porta, botão, espinhos, teletransporte e O Relojoeiro (`V`)  |
 
 
 O diagrama a seguir demonstra como funciona a transição entre as telas do jogo.
 ![Captura de Tela (1)](https://github.com/user-attachments/assets/ea5a9a73-f4c5-4cef-b0fb-b1f26dea3361)
+
+🛠️ **Tecnologias Utilizadas**
+
+* **Linguagem C**
+* **Biblioteca padrão do C** (`stdio.h`, `stdlib.h`, `conio.h`, `windows.h`, `time.h`)
+* **Laços de repetição** (`while`, `do-while`, `for`, `if-else`)
+* **Switch-case**
+* **Funções** (modularização do código em múltiplos arquivos)
+* **Variáveis e Tipos de Dados** (`int`, `char`, `float`, etc.)
+* **Vetores (Arrays)**
+* **Matrizes** (para representação de mapas e labirintos)
+* **Sistema de Pontuação e Estados de Jogo**
+* **Leitura de Teclado em Tempo Real** (`getch()` do `conio.h`)
+* **Manipulação de Tela e Pausa** (`system("cls")`, `Sleep()` do `windows.h`)
+
+## 👤 Autoria
+Este jogo foi desenvolvido como parte de um projeto educacional de programação. O personagem e a narrativa foram criados para fins didáticos e entretenimento.
+
