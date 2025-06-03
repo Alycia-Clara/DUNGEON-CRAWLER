@@ -1,0 +1,586 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <time.h>
+#include <windows.h>
+
+#define MAP_SIZE 10
+#define MAP3_SIZE 20
+#define MAP4_SIZE 40
+
+// Mapas
+char mapa[MAP_SIZE][MAP_SIZE];
+char mapa3[MAP3_SIZE][MAP3_SIZE];
+char mapa4[MAP4_SIZE][MAP4_SIZE];
+
+// Jogador fase 1 e 2
+int px = 1, py = 1;
+// Jogador fase 3
+int px3 = 1, py3 = 1;
+// Monstro X fase 3
+int monstrox_x = 10, monstrox_y = 10;
+// Jogador fase 4
+int px4 = 1, py4 = 1;
+// Monstro V fase 4
+int monstrov_x = 30, monstrov_y = 30;
+
+int temChave = 0;
+int temChave3 = 0;
+int temChave4 = 0;
+
+int espinhosBloqueados = 1;
+int espinhosBloqueados4 = 1;
+
+int faseAtual = 1;
+int tentativas = 0;
+
+// Função para imprimir texto com atraso (efeito de digitação)
+void delayPrint(const char* text, int delay_ms) {
+    for (int i = 0; text[i] != '\0'; i++) {
+        printf("%c", text[i]);
+        Sleep(delay_ms); // Atraso em milissegundos
+    }
+}
+
+// --------- Inicialização dos mapas ---------
+
+void inicializarMapaFase1() {
+    for (int y = 0; y < MAP_SIZE; y++)
+        for (int x = 0; x < MAP_SIZE; x++)
+            mapa[y][x] = (y == 0 || y == MAP_SIZE - 1 || x == 0 || x == MAP_SIZE - 1) ? '*' : ' ';
+
+    px = 1; py = 1;
+    mapa[py][px] = '&';      // Jogador
+    mapa[2][2] = 'P';        // NPC
+    mapa[4][4] = '@';        // Chave
+    mapa[8][9] = 'D';        // Porta
+    temChave = 0;
+}
+
+void inicializarMapaFase2() {
+    for (int y = 0; y < MAP_SIZE; y++)
+        for (int x = 0; x < MAP_SIZE; x++)
+            mapa[y][x] = (y == 0 || y == MAP_SIZE - 1 || x == 0 || x == MAP_SIZE - 1) ? '*' : ' ';
+
+    px = 1; py = 1;
+    mapa[py][px] = '&';      // Jogador
+    mapa[4][8] = '@';        // Chave
+    mapa[9][1] = 'D';        // Porta
+    temChave = 0;
+}
+
+void inicializarMapaFase3() {
+    for (int y = 0; y < MAP3_SIZE; y++)
+        for (int x = 0; x < MAP3_SIZE; x++)
+            mapa3[y][x] = (y == 0 || y == MAP3_SIZE-1 || x == 0 || x == MAP3_SIZE-1) ? '*' : ' ';
+
+    // Câmara de espinhos
+    int baseX = 8, baseY = 4;
+    for (int y = baseY; y <= baseY + 2; y++) {
+        for (int x = baseX; x <= baseX + 5; x++) {
+            if (y == baseY || y == baseY + 2 || x == baseX || x == baseX + 5)
+                mapa3[y][x] = '#';
+            else
+                mapa3[y][x] = ' ';
+        }
+    }
+    // Chave dentro dos espinhos
+    mapa3[baseY + 1][baseX + 3] = '@';
+
+    // Jogador
+    px3 = 1; py3 = 1;
+    mapa3[py3][px3] = '&';
+
+    // Monstro X
+    monstrox_x = 10; monstrox_y = 10;
+    mapa3[monstrox_y][monstrox_x] = 'X';
+
+    // Porta e botão
+    mapa3[18][18] = 'D';
+    mapa3[5][5] = '0';
+
+    espinhosBloqueados = 1;
+    temChave3 = 0;
+}
+
+void inicializarMapaFase4() {
+    for (int y = 0; y < MAP4_SIZE; y++)
+        for (int x = 0; x < MAP4_SIZE; x++)
+            mapa4[y][x] = (y == 0 || y == MAP4_SIZE-1 || x == 0 || x == MAP4_SIZE-1) ? '*' : ' ';
+	
+	// Monstro V
+    monstrov_x = 30; monstrov_y = 30;
+    mapa4[monstrov_y][monstrov_x] = 'V';
+
+    // Jogador
+    px4 = 1; py4 = 1;
+    mapa4[py4][px4] = '&';
+
+    // Porta e chave
+    mapa4[38][38] = 'D';
+   // Câmara de espinhos
+    int baseX = 20, baseY = 10;
+    for (int y = baseY; y <= baseY + 2; y++) {
+        for (int x = baseX; x <= baseX + 5; x++) {
+            if (y == baseY || y == baseY + 2 || x == baseX || x == baseX + 5)
+                mapa4[y][x] = '#';
+            else
+                mapa4[y][x] = ' ';
+        }
+    }
+    // Chave dentro dos espinhos
+    mapa4[baseY + 1][baseX + 3] = '@';
+
+    // Botão para desativar espinhos
+    mapa4[7][7] = '0';
+
+    // Teleporte
+    mapa4[5][5] = '>';
+    mapa4[35][35] = '>';
+
+    espinhosBloqueados4 = 1;
+    temChave4 = 0;
+}
+
+// --------- Funções para desenhar os mapas ---------
+
+void desenharMapa() {
+    system("cls");
+    for (int y = 0; y < MAP_SIZE; y++) {
+        for (int x = 0; x < MAP_SIZE; x++)
+            printf("%c ", mapa[y][x]);
+        printf("\n");
+    }
+    printf("\nUse W A S D para mover.\n");
+}
+
+void desenharMapaFase3() {
+    system("cls");
+    for (int y = 0; y < MAP3_SIZE; y++) {
+        for (int x = 0; x < MAP3_SIZE; x++)
+            printf("%c ", mapa3[y][x]);
+        printf("\n");
+    }
+    printf("\nWASD para mover, '0' para interagir.\n");
+}
+
+void desenharMapaFase4() {
+    system("cls");
+    for (int y = 0; y < MAP4_SIZE; y++) {
+        for (int x = 0; x < MAP4_SIZE; x++)
+            printf("%c ", mapa4[y][x]);
+        printf("\n");
+    }
+}
+
+// --------- Funções de reinício de fases ---------
+
+void derrota() {
+    system("cls"); 
+    delayPrint("\nDERROTA!\n", 50); 
+    delayPrint("Voce foi pego antes de completar sua missao, volte para o menu e tente novamente!\n", 30);
+    system("pause");
+}
+
+void vitoria() {
+    system("cls"); 
+    delayPrint("\nParabens!\n", 50); 
+    delayPrint("Voce recuperou a joia roubada e prendeu O Relojoeiro, jogue novamente ou ate mais tarde!\n", 30);
+    system("pause");
+}
+
+// Função para reiniciar uma fase com limite de tentativas
+void reiniciarFase(int fase_alvo) {
+    tentativas++;
+    if (tentativas >= 3) {
+        tentativas = 0;
+        derrota();
+        faseAtual = 0; // 0 indica retorno ao menu, para sair do loop de jogar
+        return;
+    }
+
+    system("cls");
+    printf("\nVoce foi ferido! Tentativas restantes: %d\n", 3 - tentativas);
+    system("pause");
+
+    if (fase_alvo == 3) {
+        inicializarMapaFase3();
+    } else if (fase_alvo == 4) {
+        inicializarMapaFase4();
+    }
+    
+}
+
+// --------- Funções movimentação do jogador ---------
+
+void moverJogador(int dx, int dy) {
+    int nx = px + dx, ny = py + dy;
+    if (mapa[ny][nx] == '*') return;
+
+    if (mapa[ny][nx] == '@') {
+        temChave = 1;
+        delayPrint("\nVoce pegou a chave!\n",20);
+        system("pause");
+    }
+
+    if (mapa[ny][nx] == 'D') {
+        if (temChave) {
+            delayPrint("\nVoce usou a chave e passou pela porta!\n",20);
+            system("pause");
+            faseAtual++;
+            if (faseAtual == 2)
+                inicializarMapaFase2();
+            else if (faseAtual == 3)
+                return; 
+            return;
+        }
+        else {
+            delayPrint("\nA porta esta trancada. Voce precisa da chave.\n",20);
+            system("pause");
+            return;
+        }
+    }
+
+    if (mapa[ny][nx] == 'P') {
+        delayPrint("\nDetetive Perani, um roubo misterioso de uma joia ocorreu no museu da cidade. \nAs pistas apontam para O Relojoeiro, o criminosoque sempre escapa. \nA unica mensagem deixada por ele na cena do crime foi um convite: \nele quer que voce va atras dele. \nSiga as chaves deixadas por ele ate chegar em seu esconderijo, \nmas ele avisou: \n\n            Tenha muito cuidado.\n",10);
+        system("pause");
+        return;
+    }
+
+    mapa[py][px] = ' ';
+    px = nx; py = ny;
+    mapa[py][px] = '&';
+}
+
+void moverJogadorFase3(int dx, int dy) {
+    int nx = px3 + dx, ny = py3 + dy;
+    char destino = mapa3[ny][nx];
+
+    if (destino == '*') return;
+     if (destino == '#') { 
+        delayPrint("\nVoce tocou nos espinhos! Cuidado!\n", 20); 
+        system("pause");
+        reiniciarFase(3);
+        return;
+    }
+    if (destino == '@') {
+        temChave3 = 1;
+        delayPrint("\nVoce pegou a chave!\n", 20);
+        system("pause");
+    }
+    if (destino == 'D') {
+        if (temChave3) {
+            faseAtual = 4;
+            return;
+        } else {
+            delayPrint("\nA porta esta trancada. Voce precisa da chave.\n", 20);
+            system("pause");
+            return;
+        }
+    }
+    if (destino == '0') {
+        if (espinhosBloqueados) {
+            for (int y = 0; y < MAP3_SIZE; y++)
+                for (int x = 0; x < MAP3_SIZE; x++)
+                    if (mapa3[y][x] == '#') mapa3[y][x] = ' ';
+            espinhosBloqueados = 0;
+            delayPrint("\nEspinhos desativados!\n",20);
+            system("pause");
+        }
+    }
+
+    mapa3[py3][px3] = ' ';
+    px3 = nx; py3 = ny;
+    mapa3[py3][px3] = '&';
+}
+
+void moverJogadorFase4(int dx, int dy) {
+    int nx = px4 + dx, ny = py4 + dy;
+    char destino = mapa4[ny][nx];
+
+    // Posições fixas dos teletransportes
+    const int tele_x1 = 5, tele_y1 = 5;
+    const int tele_x2 = 35, tele_y2 = 35;
+
+    // Variáveis estáticas para rastrear a última posição de teletransporte do jogador
+    static int ultimo_tele_x = -1;
+    static int ultimo_tele_y = -1;
+
+    // Se o jogador estava em um teletransporte na última jogada e se moveu para fora, restaura '>'
+    if ((px4 == tele_x1 && py4 == tele_y1) && !(nx == tele_x1 && ny == tele_y1)) {
+        mapa4[py4][px4] = '>';
+        ultimo_tele_x = -1;
+        ultimo_tele_y = -1;
+    } else if ((px4 == tele_x2 && py4 == tele_y2) && !(nx == tele_x2 && ny == tele_y2)) {
+        mapa4[py4][px4] = '>';
+        ultimo_tele_x = -1;
+        ultimo_tele_y = -1;
+    } else if ((px4 != tele_x1 || py4 != tele_y1) && (px4 != tele_x2 || py4 != tele_y2)) {
+        // O jogador não estava em um teletransporte anteriormente, limpar a posição antiga
+        mapa4[py4][px4] = ' ';
+        ultimo_tele_x = -1;
+        ultimo_tele_y = -1;
+    }
+
+    if (destino == '*' || destino == '#') {
+       if (destino == '#') {
+            delayPrint("\nVoce tocou nos espinhos! Cuidado!\n", 20); // Merged: delayPrint
+            system("pause");
+            reiniciarFase(4);
+        }
+        return; // Não permite movimento para parede ou espinhos
+    }
+
+    if (destino == '@') {
+        temChave4 = 1;
+        printf("\nVoce pegou a chave!");
+        system("pause");
+    } else if (destino == 'D') {
+        if (temChave4) {
+            vitoria();
+            faseAtual = 1;  // volta ao menu
+            return;
+        } else {
+            delayPrint("\nA porta esta trancada. Voce precisa da chave.\n", 20);
+            system("pause");
+            return;
+        }
+    } else if (destino == '0') {
+        if (espinhosBloqueados4) {
+            for (int y = 0; y < MAP4_SIZE; y++)
+                for (int x = 0; x < MAP4_SIZE; x++)
+                    if (mapa4[y][x] == '#') mapa4[y][x] = ' ';
+            espinhosBloqueados4 = 0;
+            delayPrint("\nEspinhos desativados!\n",20);
+            system("pause");
+        }
+    } else if (destino == '>') {
+        int dest_x, dest_y;
+        if (nx == tele_x1 && ny == tele_y1) {
+            dest_x = tele_x2;
+            dest_y = tele_y2;
+        } else if (nx == tele_x2 && ny == tele_y2) {
+            dest_x = tele_x1;
+            dest_y = tele_y1;
+        } else {
+            dest_x = nx;
+            dest_y = ny;
+        }
+
+        // Restaura a posição anterior do teletransporte se o jogador estava nela
+        if (px4 == tele_x1 && py4 == tele_y1) {
+            mapa4[py4][px4] = '>';
+        } else if (px4 == tele_x2 && py4 == tele_y2) {
+            mapa4[py4][px4] = '>';
+        } else {
+            // Caso contrário, limpar a posição antiga normalmente
+            mapa4[py4][px4] = ' ';
+        }
+
+        // Atualiza a posição do jogador para o teletransporte de destino
+        px4 = dest_x;
+        py4 = dest_y;
+
+        // Marca o jogador na nova posição
+        mapa4[py4][px4] = '&';
+
+        // Controla a nova posição de teletransporte que o jogador está
+        if ((px4 == tele_x1 && py4 == tele_y1) || (px4 == tele_x2 && py4 == tele_y2)) {
+            ultimo_tele_x = px4;
+            ultimo_tele_y = py4;
+        } else {
+            ultimo_tele_x = -1;
+            ultimo_tele_y = -1;
+        }
+
+        return;
+    }
+
+    // Movimento normal para espaço vazio ou outro tile
+    px4 = nx;
+    py4 = ny;
+    mapa4[py4][px4] = '&';
+
+    // Controla se o jogador está atualmente em um teletransporte
+    if ((px4 == tele_x1 && py4 == tele_y1) || (px4 == tele_x2 && py4 == tele_y2)) {
+        ultimo_tele_x = px4;
+        ultimo_tele_y = py4;
+    } else {
+        ultimo_tele_x = -1;
+        ultimo_tele_y = -1;
+    }
+}
+
+
+// --------- Funções de movimentação dos monstros ---------
+
+void moverMonstroFase3() {
+    int dx[] = {0, -1, 0, 1};
+    int dy[] = {-1, 0, 1, 0};
+    int dir = rand() % 4;
+    int movex_x = monstrox_x + dx[dir];
+    int movex_y = monstrox_y + dy[dir];
+
+    char destino = mapa3[movex_y][movex_x];
+
+    if (destino == ' ' || destino == '&') {
+        if (destino == '&') {
+            // Jogador capturado
+            delayPrint("\nO capanga te pegou!\n",20);
+            system("pause");
+            reiniciarFase(3);
+            return;
+        }
+        // Atualiza posição monstro
+        mapa3[monstrox_y][monstrox_x] = ' ';
+        monstrox_x = movex_x;
+        monstrox_y = movex_y;
+        mapa3[monstrox_y][monstrox_x] = 'X';
+    }
+}
+
+void moverMonstroFase4() {
+    int movev_x = monstrov_x;
+    int movev_y = monstrov_y;
+    mapa4[monstrov_y][monstrov_x] = ' ';
+
+    if (monstrov_x < px4) movev_x++;
+    else if (monstrov_x > px4) movev_x--;
+    if (monstrov_y < py4) movev_y++;
+    else if (monstrov_y > py4) movev_y--;
+
+    if (mapa4[movev_y][movev_x] == ' ') {
+        monstrov_x = movev_x;
+        monstrov_y = movev_y;
+    }
+    // Atualiza posição do monstro
+    mapa4[monstrov_y][monstrov_x] = 'V';
+
+    if (monstrov_x == px4 && monstrov_y == py4) {
+        delayPrint("\nO Relojoeiro te pegou!\n",20);
+        system("pause");   
+        reiniciarFase(4);
+    }
+     
+}
+
+// --------- Função principal das fases ---------
+
+void jogar() {
+    if (faseAtual == 1) {
+        inicializarMapaFase1();
+        system("cls");
+        delayPrint("Bem-vindo ao Mystery Case! Sua jornada como Detetive Perani, o melhor detetive da cidade, comeca agora.\n", 20);
+        system("pause");
+        char comando;
+        while (faseAtual == 1) {
+            desenharMapa();
+            comando = getch();
+            switch (comando) {
+                case 'w': moverJogador(0, -1); break;
+                case 's': moverJogador(0, 1); break;
+                case 'a': moverJogador(-1, 0); break;
+                case 'd': moverJogador(1, 0); break;
+            }
+            if (faseAtual == 2) {
+                inicializarMapaFase2();
+            }
+        }
+    }
+
+    if (faseAtual == 2) {
+        char comando;
+        // Reuso mapa fase 1 para fase 2
+        while (faseAtual == 2) {
+            desenharMapa();
+            comando = getch();
+            switch (comando) {
+                case 'w': moverJogador(0, -1); break;
+                case 's': moverJogador(0, 1); break;
+                case 'a': moverJogador(-1, 0); break;
+                case 'd': moverJogador(1, 0); break;
+            }
+            if (faseAtual == 3) {
+                // Vai para fase 3
+                break;
+            }
+        }
+    }
+
+    if (faseAtual == 3) {
+        inicializarMapaFase3();
+        system("cls");
+        delayPrint("Apos uma longa jornada, voce encontra um beco com uma porta misteriosa, \num dos capangas esta protegendo a entrada e a chave esta entre por espinhos, \npegue a chave e entre no esconderijo.\n", 20);
+        system("pause");
+        tentativas = 0;
+        srand(time(NULL));
+        char comando;
+        while (faseAtual == 3) {
+            desenharMapaFase3();
+            comando = getch();
+            switch (comando) {
+                case 'w': moverJogadorFase3(0, -1); break;
+                case 's': moverJogadorFase3(0, 1); break;
+                case 'a': moverJogadorFase3(-1, 0); break;
+                case 'd': moverJogadorFase3(1, 0); break;
+                case '0': moverJogadorFase3(0, 0); break;
+            }
+            moverMonstroFase3();
+            // Se fase mudar para 4, sai do loop
+            if (faseAtual != 3)
+                break;
+        }
+    }
+
+    if (faseAtual == 4) {
+        inicializarMapaFase4();
+        system("cls");
+        delayPrint("O Relojoeiro esta finalmente na sua frente assim como a joia roubada, que esta envolta por lazers fatais. \nResgate a joia roubada e saia para chamar reforcos.\n", 20);
+        system("pause");
+        char comando;
+        while (faseAtual == 4) {
+            desenharMapaFase4();
+            comando = getch();
+            switch (comando) {
+                case 'w': moverJogadorFase4(0, -1); break;
+                case 's': moverJogadorFase4(0, 1); break;
+                case 'a': moverJogadorFase4(-1, 0); break;
+                case 'd': moverJogadorFase4(1, 0); break;
+            }
+            moverMonstroFase4();
+        }
+    }
+}
+
+// --------- Menu principal ---------
+
+int main() {
+    char opcao;
+    do {
+        system("cls");
+        printf("\n=== Mystery Case ===\n");
+        printf("1 - Jogar\n2 - Creditos\n3 - Sair\nEscolha: ");
+        opcao = getch();
+        printf("%c\n", opcao);
+        switch (opcao) {
+            case '1':
+                faseAtual = 1;
+                jogar();
+                break;
+            case '2':
+                printf("\nCreditos:\nALYCIA CLARA BRASIL BARBOSA\nPAULO DE LUCAS LEAL DO AMARAL\n");
+                system("pause");
+                break;
+            case '3':
+                printf("\nSaindo...\n");
+                break;
+            default:
+                printf("\nOpcao invalida!\n");
+                system("pause");
+        }
+    } while (opcao != '3');
+
+    return 0;
+}
+
+
