@@ -29,8 +29,8 @@ O jogo utiliza uma série de símbolos para representar os diferentes elementos 
 | `O`     | **Botão de ação**. Fica no chão e o jogador precisa ficar sobre ele para ativá-lo. A ação resultante do botão é desativar os espinhos |
 | `#`     | **Espinhos**. Se o jogador tocar neles, a fase é reiniciada. Após três reinícios, o jogo retorna ao menu principal.                                                                           |
 | `>`     | **Teletransporte**. Sempre vem em pares. Leva o jogador de um ponto a outro instantaneamente.                                                                                                 |
-| `X`     | **Monstro Nível 1**. Move-se aleatoriamente (cima, baixo, esquerda, direita). Se encostar no jogador, a fase é reiniciada.                                                                    |
-| `V`     | **Monstro Nível 2**. Possui inteligência para seguir o jogador. Se encostar no jogador, a fase é reiniciada.                                                                                  |
+| `X`     | **Capanga**. Move-se aleatoriamente (cima, baixo, esquerda, direita). Se encostar no jogador, a fase é reiniciada.                                                                    |
+| `V`     | **O Relojoeiro**. Possui inteligência para seguir o jogador. Se encostar no jogador, a fase é reiniciada.                                                                                  |
 
 
 ## 🗺️ Telas e Estrutura do Jogo
@@ -41,15 +41,15 @@ O jogo é composto por diversas telas e fases que guiam a experiência do jogado
 
 * **Menu Principal**
   Exibe o título do jogo e três opções principais:
-
+ ![Captura de Tela (2)](https://github.com/user-attachments/assets/ce67d6b9-0d99-4cce-9190-8b8c61d98e82)
   * **Jogar**: Inicia o jogo a partir da Vila.
   * **Créditos**: Exibe os nomes dos desenvolvedores.
   * **Sair**: Mostra uma mensagem de despedida e encerra o programa.
-  ![Captura de Tela (2)](https://github.com/user-attachments/assets/ce67d6b9-0d99-4cce-9190-8b8c61d98e82)
 
 
 * **Créditos**
   Tela com os nomes dos criadores do jogo.
+
 ![Captura de Tela (3)](https://github.com/user-attachments/assets/10f60eff-2145-45c0-8147-38ade8273b0e)
 
 * **Sair**
@@ -58,19 +58,23 @@ O jogo é composto por diversas telas e fases que guiam a experiência do jogado
 * **Museu (Tutorial)**
   Fase introdutória que contextualiza o jogador, contem o ajudante do Detetive (NPC), a chave e a porta para a fase inicial.
 
+
 ![Captura de Tela (4)](https://github.com/user-attachments/assets/62ac5aa7-ba33-4a73-9c69-c49df62d2cc9)
 
 * **Tentativas**
   O jogador tem até 3 tentativas de vida, quando perde uma, aparece na tela quantas tentativas ele ainda possui antes de definir derrota.
+
   ![Captura de Tela (6)](https://github.com/user-attachments/assets/1c64bbf4-ae4e-4f90-b76e-e18d98bab178)
 
 
 * **Vitória** 🏆
   Exibida quando o jogador conclui a Fase 3. Mostra uma mensagem de parabéns e retorna ao menu principal.
+
 ![Captura de Tela (8)](https://github.com/user-attachments/assets/90fa0062-4eca-4890-895e-851f5e9c9040)
 
 * **Derrota** ☠
   Exibida quando o jogador perde. Mostra uma mensagem e retorna ao menu principal.
+
 ![Captura de Tela (7)](https://github.com/user-attachments/assets/be42c76f-4e65-4930-8e1e-376a8401e703)
 
 
