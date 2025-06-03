@@ -1,7 +1,7 @@
 # ⚔ DUNGEON-CRAWLER
 Projeto desenvolvido como parte da segunda avaliação da disciplina Programação 1, por Alycia Brasil e Paulo Amaral. Trata-se de um jogo no estilo **Dungeon Crawler**, com foco em **aventura e resolução de puzzles**, que desafia o jogador a avançar por três fases com dificuldade progressiva.
 
-##📜 Sobre o Projeto
+## 📜 Sobre o Projeto
 
 Você joga como Detetive Perani, tentando capturar o criminoso conhecido como O Relojoeiro. Para encontrá-lo, você precisa seguir as pistas e atravessar diferentes fases cheias de perigos.
 O objetivo principal é concluir três fases, superando obstáculos e inimigos em cada uma delas. Em todas as fases, o jogador deve encontrar uma chave para abrir a porta trancada e seguir para a próxima etapa.
