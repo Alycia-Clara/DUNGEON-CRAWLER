@@ -31,8 +31,7 @@ O jogo utiliza uma série de símbolos para representar os diferentes elementos 
 | `P`     | Representa um **NPC** que é o ajudante do Detetive e conta sobre o crime.                                                                                                                     |
 | `*`     | **Parede**. O jogador não pode atravessar paredes. Elas funcionam como barreiras.                                                                                                             |
 | `@`     | **Chave**. Quando o jogador interage com a chave, a porta de saída é destrancada.                                                                                                             |
-| `D`     | **Porta fechada**. Bloqueia a saída até que o jogador colete a chave.                                                                                                                         |
-| `=`     | **Porta aberta**. Aparece após a interação com a chave e permite concluir a fase.                                                                                                             |
+| `D`     | **Porta**. Bloqueia a saída até que o jogador colete a chave.                                                                                                                         |
 | `O`     | **Botão de ação**. Fica no chão e o jogador precisa ficar sobre ele para ativá-lo. A ação resultante do botão é desativar os espinhos |
 | `#`     | **Espinhos**. Se o jogador tocar neles, a fase é reiniciada. Após três reinícios, o jogo retorna ao menu principal.                                                                           |
 | `>`     | **Teletransporte**. Sempre vem em pares. Leva o jogador de um ponto a outro instantaneamente.                                                                                                 |
