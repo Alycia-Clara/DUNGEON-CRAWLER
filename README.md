@@ -114,7 +114,7 @@ O diagrama a seguir demonstra como funciona a transição entre as telas do jogo
 
 ## Compilação
 * O jogo compila apenas em windows
-* o compilador usado foi o dev c++
+* o compilador usado foi o falcon C++
 
 ## 👤 Autoria
 Este jogo foi desenvolvido como parte de um projeto educacional de programação. O personagem e a narrativa foram criados para fins didáticos e entretenimento.
