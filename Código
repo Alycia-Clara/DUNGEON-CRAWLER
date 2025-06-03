@@ -13,15 +13,15 @@ char mapa[MAP_SIZE][MAP_SIZE];
 char mapa3[MAP3_SIZE][MAP3_SIZE];
 char mapa4[MAP4_SIZE][MAP4_SIZE];
 
-// Jogador fase 1 e 2
+
 int px = 1, py = 1;
-// Jogador fase 3
+
 int px3 = 1, py3 = 1;
-// Monstro X fase 3
+
 int monstrox_x = 10, monstrox_y = 10;
-// Jogador fase 4
+
 int px4 = 1, py4 = 1;
-// Monstro V fase 4
+
 int monstrov_x = 30, monstrov_y = 30;
 
 int temChave = 0;
@@ -34,15 +34,15 @@ int espinhosBloqueados4 = 1;
 int faseAtual = 1;
 int tentativas = 0;
 
-// Função para imprimir texto com atraso (efeito de digitação)
+// Função para imprimir texto com atraso 
 void delayPrint(const char* text, int delay_ms) {
     for (int i = 0; text[i] != '\0'; i++) {
         printf("%c", text[i]);
-        Sleep(delay_ms); // Atraso em milissegundos
+        Sleep(delay_ms); // Atraso 
     }
 }
 
-// --------- Inicialização dos mapas ---------
+//  Inicialização dos mapas 
 
 void inicializarMapaFase1() {
     for (int y = 0; y < MAP_SIZE; y++)
@@ -63,9 +63,9 @@ void inicializarMapaFase2() {
             mapa[y][x] = (y == 0 || y == MAP_SIZE - 1 || x == 0 || x == MAP_SIZE - 1) ? '*' : ' ';
 
     px = 1; py = 1;
-    mapa[py][px] = '&';      // Jogador
-    mapa[4][8] = '@';        // Chave
-    mapa[9][1] = 'D';        // Porta
+    mapa[py][px] = '&';      
+    mapa[4][8] = '@';        
+    mapa[9][1] = 'D';        
     temChave = 0;
 }
 
@@ -142,7 +142,7 @@ void inicializarMapaFase4() {
     temChave4 = 0;
 }
 
-// --------- Funções para desenhar os mapas ---------
+//  Funções para desenhar os mapas 
 
 void desenharMapa() {
     system("cls");
@@ -173,7 +173,7 @@ void desenharMapaFase4() {
     }
 }
 
-// --------- Funções de reinício de fases ---------
+//  Funções de reinício de fases 
 
 void derrota() {
     system("cls"); 
@@ -189,7 +189,7 @@ void vitoria() {
     system("pause");
 }
 
-// Função para reiniciar uma fase com limite de tentativas
+// Função para reiniciar uma fase 
 void reiniciarFase(int fase_alvo) {
     tentativas++;
     if (tentativas >= 3) {
@@ -211,7 +211,7 @@ void reiniciarFase(int fase_alvo) {
     
 }
 
-// --------- Funções movimentação do jogador ---------
+//  Funções movimentação do jogador 
 
 void moverJogador(int dx, int dy) {
     int nx = px + dx, ny = py + dy;
@@ -412,7 +412,7 @@ void moverJogadorFase4(int dx, int dy) {
 }
 
 
-// --------- Funções de movimentação dos monstros ---------
+// Funções de movimentação dos monstros 
 
 void moverMonstroFase3() {
     int dx[] = {0, -1, 0, 1};
@@ -464,7 +464,7 @@ void moverMonstroFase4() {
      
 }
 
-// --------- Função principal das fases ---------
+//Função principal das fases 
 
 void jogar() {
     if (faseAtual == 1) {
@@ -582,5 +582,4 @@ int main() {
 
     return 0;
 }
-
 
